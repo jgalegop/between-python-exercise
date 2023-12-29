@@ -14,8 +14,7 @@ class App:
         if self._api_service is None or self._api_service.data is None:
             raise Exception("No fetched data to be exported")
         
-        # creates folder if there's none
-        os.makedirs(storage_folder, exist_ok=True)
+        self.make_folder(storage_folder)
         
         for data in self._api_service.data:
             file_name = f"{datetime.now().strftime('%Y_%m_%d')}_{data['id']}.csv"
@@ -24,3 +23,7 @@ class App:
                 writer = csv.DictWriter(csv_file, fieldnames=data.keys())
                 writer.writeheader()
                 writer.writerow(data)
+
+    def make_folder(self, folder):
+        # creates folder if there's none
+        os.makedirs(folder, exist_ok=True)
